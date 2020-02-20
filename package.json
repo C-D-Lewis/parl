@@ -1,0 +1,19 @@
+{
+  "name": "parl",
+  "version": "1.0.0",
+  "description": "Pluggable REST CLI",
+  "main": "index.js",
+  "bin": {
+    "parl": "bin/cli.js"
+  },
+  "keywords": [
+    "REST",
+    "CLI"
+  ],
+  "author": "Chris Lewis",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "jsonschema": "^1.2.5",
+    "node-fetch": "^2.6.0"
+  }
+}
