@@ -47,18 +47,25 @@ const loadConfigs = () => {
   });
 };
 
-const handleArgs = () => {
-  // Find a loaded command that matches args
-  const found = commands.find((command) => {
-    const parts = command.split('/').filter(p => p.length);
-    
-  })
-}
+const argMatches = (arg, spec) => {
+  if (arg === spec) return true;
+  if (spec === ':id') return true;
+
+  return false;
+};
+
+// Find a loaded command path that matches args
+const getPath = () =>
+  commands.find((command) => {
+    const spec = command.split('/').filter(p => p.length);
+    return ARGS.every((p, i) => argMatches(p, spec[i]));
+  });
 
 const main = () => {
   try {
     loadConfigs();
-    handleArgs();
+    const path = getPath();
+    
   } catch (e) {
     console.log(e);
   }
