@@ -30,6 +30,7 @@ const loadConfigResources = () => {
   const configs = readdirSync(`${__dirname}/../../`)
     .filter(p => p.includes(CONFIG_PREFIX))
     .map(p => ({ name: p, data: require(`${__dirname}/../../${p}`) }));
+
   return configs.reduce((acc, config) => {
     validateConfig(config.name, config.data);
 
@@ -49,6 +50,8 @@ const argMatches = (token, spec) => {
   if (token === spec) return true;
   // Anything can be an ID
   if (spec === ':id') return true;
+  // A method
+  if (['create', 'list', 'read', 'update', 'delete'].includes(token)) return true;
 
   // No reason to match
   return false;
@@ -86,8 +89,16 @@ const getMethod = () => {
  */
 const main = () => {
   try {
+    if (ARGS.length < 1) {
+      throw new Error('No arguments provided');
+    }
+
     const resources = loadConfigResources();
     const path = getPath(resources);
+    if (!path) {
+      throw new Error('Command not recognised');
+    }
+
     const method = getMethod(path);
 
     console.log({ path, method });
